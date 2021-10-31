@@ -12,16 +12,15 @@ class User:
     def __str__(self) -> str:
         return f"Name: {self.first_name} {self.last_name}. Hospital: {self.hospital_name}"
 
-    def to_json(self) -> json:
-        return json.dump({
+    def to_dict(self) -> json:
+        return {
             "first_name": self.first_name,
             "last_name": self.last_name,
             "hospital_name": self.hospital_name
-        })
+        }
 
     @classmethod
-    def from_json(cls, json_object: json):
-        obj_dict: dict = json.loads(json_object)
+    def from_dict(cls, obj_dict: dict):
         return cls(
             first_name=obj_dict.get('first_name'),
             last_name=obj_dict.get('last_name'),
@@ -43,5 +42,7 @@ class TimeSheet:
         self.start_time = start_time
         self.end_time = end_time
         self.night_disturbances = []
+
+
 
 

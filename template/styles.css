@@ -1,0 +1,154 @@
+/* 
+blue = rgba(2,83,164,255)
+
+*/
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+@font-face {
+    font-family: 'Inter';
+    src: url('inter.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+html {
+  font-size: 62.5%; }
+
+td{
+    height: 3rem;
+}
+
+body {
+  box-sizing: border-box; 
+  line-height: 1.7;
+  padding: 3rem; 
+  font-family: Inter;
+}
+
+img {
+    max-width:100%;
+    max-height:100%;
+}
+
+
+.bold-text{
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.minor-title-text {
+    color: rgba(2,83,164,255);
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+.minor-bold-text{
+    font-weight: 550;
+    font-size: 1.2rem;
+}
+
+
+/* HEADER */
+.heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.heading__title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: rgba(2,83,164,255)
+}
+
+.heading__logo-box {
+    display: inline-block;
+    /* height: 15rem; */
+    width: 15rem;
+}
+
+/* LAYOUT */
+
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.main-block {
+    width: 45vw;
+
+
+}
+
+.side-block {
+    width: 45vw;
+    padding: 0 2rem;
+}
+
+
+/* BIODATA */
+
+.bio-data {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bio-data__row {
+    display: flex;
+    padding: 2rem 0;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.timesheet__title-block {
+    padding: 1.5rem 0;
+}
+
+.timesheet__footer-block {
+    margin: 0 auto;
+    width: 90%;
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin-top: 2rem;
+}
+
+
+.night-block__heading {
+    padding: 2rem 0;
+}
+
+.night-block__table{
+    margin: 0 2rem;
+}
+
+
+
+.declaration-block {
+    margin-top: 2rem;
+}
+
+
+.declaration-block__signature {
+    display: flex;
+    flex-direction: row;
+    margin: 2rem 0;
+    align-items: center;
+}
+
+.signature-box {
+    display: inline-block;
+    width: 15rem;
+}
+
+
+
+
+

@@ -15,7 +15,7 @@ def main():
 
     elif command == 'init':
         first_name = input("First name: ")
-        last_name = input("First name: ")
+        last_name = input("Last name: ")
         hospital_name = input("Hospital: ")
 
         user = models.User(first_name=first_name, last_name=last_name, hospital_name=hospital_name)

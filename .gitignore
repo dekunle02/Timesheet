@@ -1,6 +1,6 @@
 *.json
 *.png
-*.jpg
+signature.jpg
 *.pyc
 **/__pycache__/**
 **/out/**

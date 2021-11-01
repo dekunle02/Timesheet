@@ -10,14 +10,6 @@ blue = rgba(2,83,164,255)
   padding: 0;
   box-sizing: inherit; }
 
-@font-face {
-    font-family: 'Inter';
-    src: url('inter.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-
 html {
   font-size: 62.5%; }
 
@@ -28,7 +20,7 @@ td{
 body {
   box-sizing: border-box; 
   line-height: 1.7;
-  font-family: Inter;
+  font-family:  'Inter', sans-serif;
   padding: 5rem 15rem;
 }
 

@@ -38,10 +38,10 @@ class NightDisturbance:
 
 
 class TimeSheet:
-    def __init__(self, user: User, start_date: str, start_time: str, end_date: str, end_time: str) -> None:
+    def __init__(self, user: User, start_date: str, start_time: str, number_of_days: int, end_time: str) -> None:
         self.user = user
         self.start_date: date = datetime.strptime(start_date, '%d/%m/%Y').date()
-        self.end_date: date = datetime.strptime(end_date, '%d/%m/%Y').date()
+        self.number_of_days: int = number_of_days
         self.start_time: str = start_time
         self.end_time: str = end_time
         self.night_disturbances = []
@@ -59,7 +59,7 @@ class TimeSheet:
         work_data = {}
 
         next_date = copy.deepcopy(self.start_date)
-        final_date = copy.deepcopy(self.end_date)
+        final_date = self.start_date + timedelta(days=self.number_of_days)
 
         work_entries = []
         entry_id: int = 1
@@ -69,7 +69,7 @@ class TimeSheet:
                 row_data['start_time'] = self.start_time
                 row_data['end_time'] = '00:00'
                 row_data['hours'] = self.calculate_total_hours(_from=self.start_time)
-            elif next_date == self.end_date:
+            elif next_date == final_date:
                 row_data['start_time'] = '00:00'
                 row_data['end_time'] = self.end_time
                 row_data['hours'] = self.calculate_total_hours(_to=self.end_time)

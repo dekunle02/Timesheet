@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
-
+import os
 from database.models import User
 
-DATABASE_FILE_NAME = 'db.json'
+DATABASE_FILE_DIRECTORY = Path(__file__).resolve().parents[0] / 'db.json'
 USER_KEY = 'user'
 
 DEFAULT_DATA = {
@@ -12,13 +12,12 @@ DEFAULT_DATA = {
 
 
 def get_database() -> dict:
-    db_directory = Path(DATABASE_FILE_NAME)
-    if not db_directory.exists():
-        with open(DATABASE_FILE_NAME, 'w+') as f:
+    if not DATABASE_FILE_DIRECTORY.exists():
+        with open(DATABASE_FILE_DIRECTORY, 'w+') as f:
             json.dump(DEFAULT_DATA, f)
         return DEFAULT_DATA
     else:
-        with open(DATABASE_FILE_NAME, 'r') as f:
+        with open(DATABASE_FILE_DIRECTORY, 'r') as f:
             return json.load(f)
 
 
@@ -34,13 +33,9 @@ def get_user():
 def put_user(user: User):
     db: dict = get_database()
     db[USER_KEY] = user.to_dict()
-    with open(DATABASE_FILE_NAME, 'w') as f:
+    with open(DATABASE_FILE_DIRECTORY, 'w') as f:
         json.dump(db, f)
 
 
-def modify_user(user: User, **kwargs):
-    user_dict: dict = user.to_dict()
-    for k in kwargs:
-        user_dict[k] = kwargs[k]
-    user_obj: User = User.from_dict(user_dict)
-    put_user(user_obj)
+def drop():
+    os.remove(DATABASE_FILE_DIRECTORY)

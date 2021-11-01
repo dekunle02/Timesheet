@@ -28,8 +28,8 @@ td{
 body {
   box-sizing: border-box; 
   line-height: 1.7;
-  padding: 3rem; 
   font-family: Inter;
+  padding: 5rem 15rem;
 }
 
 img {
@@ -77,14 +77,11 @@ img {
 .content {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-
+    justify-content: space-between;
 }
 
 .main-block {
-    width: 45vw;
-
-
+    width: 40vw;
 }
 
 .side-block {
@@ -110,6 +107,10 @@ img {
 
 .timesheet__title-block {
     padding: 1.5rem 0;
+}
+
+.timesheet__table {
+    margin-right: 2rem;
 }
 
 .timesheet__footer-block {

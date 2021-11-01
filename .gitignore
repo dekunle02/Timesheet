@@ -2,6 +2,7 @@
 *.png
 *.jpg
 *.pyc
+*.pdf
 **/__pycache__/**
 **/venv/**
 **/.idea/**

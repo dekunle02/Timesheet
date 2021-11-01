@@ -1,5 +1,6 @@
 import json
-from datetime import date, datetime
+import copy
+from datetime import date, datetime, timedelta
 from dataclasses import dataclass
 
 
@@ -28,21 +29,79 @@ class User:
         )
 
 
+@dataclass
 class NightDisturbance:
-    def __init__(self, date, time, duration, reason) -> None:
-        self.date = date
-        self.time = time
-        self.duration = duration
-        self.reason = reason
+    date: str
+    time: str
+    duration: str
+    reason: str
 
 
 class TimeSheet:
-    def __init__(self, user: User, start_time: datetime, end_time: str) -> None:
+    def __init__(self, user: User, start_date: str, start_time: str, end_date: str, end_time: str) -> None:
         self.user = user
-        self.start_time = start_time
-        self.end_time = end_time
+        self.start_date: date = datetime.strptime(start_date, '%d/%m/%Y').date()
+        self.end_date: date = datetime.strptime(end_date, '%d/%m/%Y').date()
+        self.start_time: str = start_time
+        self.end_time: str = end_time
         self.night_disturbances = []
 
+    def add_night_disturbance(self, disturbance: NightDisturbance) -> None:
+        disturbance_dict = {
+            'date': disturbance.date,
+            'time': disturbance.time,
+            'duration': disturbance.duration,
+            'reason': disturbance.reason
+        }
+        self.night_disturbances.append(disturbance_dict)
+
+    def calculate_work_data(self) -> dict:
+        work_data = {}
+
+        next_date = copy.deepcopy(self.start_date)
+        final_date = copy.deepcopy(self.end_date)
+
+        work_entries = []
+        entry_id: int = 1
+        while next_date <= final_date:
+            row_data = {'id': entry_id, 'date': str(next_date)}
+            if next_date == self.start_date:
+                row_data['start_time'] = self.start_time
+                row_data['end_time'] = '00:00'
+                row_data['hours'] = self.calculate_total_hours(_from=self.start_time)
+            elif next_date == self.end_date:
+                row_data['start_time'] = '00:00'
+                row_data['end_time'] = self.end_time
+                row_data['hours'] = self.calculate_total_hours(_to=self.end_time)
+            else:
+                row_data['start_time'] = '00:00'
+                row_data['end_time'] = '00:00'
+                row_data['hours'] = 24
+            work_entries.append(row_data)
+            next_date += timedelta(days=1)
+            entry_id += 1
+        total_hours = sum([entry['hours'] for entry in work_entries])
+        work_data['entries'] = work_entries
+        work_data['total_hours'] = total_hours
+        return work_data
+
+    @property
+    def data(self) -> dict:
+        return {
+            'bio': self.user.to_dict(),
+            'table_data': self.calculate_work_data(),
+            'night_disturbances': self.night_disturbances
+        }
+        pass
+
+    @staticmethod
+    def calculate_total_hours(_from: str = '00:00', _to: str = '24:00') -> float:
+        hr, min = _from.split(":")
+        from_min = int(hr) * 60 + int(min)
+        hr, min = _to.split(":")
+        to_min = int(hr) * 60 + int(min)
+        total_min = to_min - from_min
+        return total_min / 60
 
 
 

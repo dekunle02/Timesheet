@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from models import User
+from database.models import User
 from constants import DATABASE_FILE_NAME, USER_KEY
 
 
@@ -44,22 +44,3 @@ def modify_user(user: User, **kwargs):
     user_obj: User = User.from_dict(user_dict)
     put_user(user_obj)
 
-
-if __name__ == '__main__':
-    user = User(first_name='Sam', last_name='Ade', hospital_name='Norphe')
-    put_user(user)
-    print(get_user())
-    modify_user(user, **{'first_name': 'Nafisah'})
-    print(get_user())
-
-# data: dict = {
-#     'name': 'Samad',
-#     'age': 27
-# }
-
-# with open('db.json', 'w') as outfile:
-#     json.dump(data, outfile)
-
-# with open(DATABASE_NAME, 'r') as json_file:
-#     data = json.load(json_file)
-#     print(data)

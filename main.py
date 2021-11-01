@@ -25,6 +25,7 @@ def main():
         user = db.get_user()
         if not user:
             print("You have to initialize first with 'init'")
+            print("Please put a picture of your signature in the database directory. Saved as 'signature.jpg'")
         else:
             start_date = input("Shift start date in format 'd/m/y': ")
             start_time = input("Shift start time in format 'h:m': ")

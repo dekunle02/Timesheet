@@ -1,17 +1,24 @@
 import sys
 from database import db, models
 from template import composer
+from pathlib import Path
+
+
+def verify_signature() -> bool:
+    signature_path = 'database/signature.jpg'
+    pass
 
 
 def main():
     if len(sys.argv) < 2:
-        print("'help' to get help for the program")
+        print("'help' to get information about how to use this script.")
         return
+
     command = sys.argv[1]
 
     if command == 'help':
-        print("'run' to use the program")
-        print("'init' to set up the database for the first")
+        print("'run' to use the script.")
+        print("'init' to set up the database for the first.")
 
     elif command == 'init':
         first_name = input("First name: ")

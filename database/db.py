@@ -2,8 +2,9 @@ import json
 from pathlib import Path
 
 from database.models import User
-from constants import DATABASE_FILE_NAME, USER_KEY
 
+DATABASE_FILE_NAME = 'db.json'
+USER_KEY = 'user'
 
 DEFAULT_DATA = {
     USER_KEY: {}
@@ -21,12 +22,12 @@ def get_database() -> dict:
             return json.load(f)
 
 
-def get_user() -> User:
+def get_user():
     db: dict = get_database()
-    try:
+    if db.get(USER_KEY):
         user_obj: User = User.from_dict(db.get(USER_KEY))
         return user_obj
-    except:
+    else:
         return None
 
 
@@ -43,4 +44,3 @@ def modify_user(user: User, **kwargs):
         user_dict[k] = kwargs[k]
     user_obj: User = User.from_dict(user_dict)
     put_user(user_obj)
-

@@ -5,11 +5,16 @@ from database.models import User, TimeSheet
 from pathlib import Path
 import pdfkit
 
-# confirm signature and user first
 TEMPLATE_DIRECTORY = 'template.html'
-TEMP_DIRECTORY = 'temp.html'
 today = str(date.today())
-OUT_DIRECTORY = Path(__file__).parents[1] / 'out' / (today + '.pdf')
+
+OUT_PDF = Path(__file__).parents[1] / 'out' / (today + '.pdf')
+OUT_HTML = Path(__file__).parents[1] / 'out' / (today + '.html')
+
+BOOTSTRAP_DIR = Path(__file__).parents[1] / 'res' / 'bootstrap.css'
+STYLES_DIR = Path(__file__).parents[1] / 'res' / 'styles.css'
+LOGO_DIR = Path(__file__).parents[1] / 'res' / 'nes_logo.jpg'
+SIGNATURE_DIRECTORY = Path(__file__).parents[1] / 'database' / 'signature.jpg'
 
 
 def compose(timesheet: TimeSheet):
@@ -19,7 +24,7 @@ def compose(timesheet: TimeSheet):
         template_string = compose_timesheet(timesheet, template_string)
         template_string = compose_disturbances(timesheet, template_string)
         template_string = compose_date(template_string)
-        make_temp(clean_timesheet(template_string))
+        make_temp(clean(template_string))
         produce()
 
 
@@ -34,7 +39,7 @@ def produce():
         'margin-left': '0in'
     }
     config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    css = ['styles.css', 'bootstrap.css']
+    css = ['res', 'bootstrap.css']
 
     pdfkit.from_file(TEMP_DIRECTORY, OUT_DIRECTORY, options=options, configuration=config, css=css)
 
@@ -59,7 +64,7 @@ def compose_date(template: str) -> str:
     return template.replace('XXTODAY_DATEXX', today)
 
 
-def compose_disturbances(timesheet: TimeSheet, template: str) -> str:
+def compose_disturbances(timesheet: TimeSheet, text: str) -> str:
     disturbances = timesheet.data['night_disturbances']
     counter = 1
     template_dic = {}
@@ -70,11 +75,11 @@ def compose_disturbances(timesheet: TimeSheet, template: str) -> str:
         template_dic[f'XXDIST_REASON_{counter}XX'] = disturbance['reason']
         counter += 1
 
-    template = replace_all(template, template_dic)
-    return template
+    text = replace_all(text, template_dic)
+    return text
 
 
-def compose_timesheet(timesheet: TimeSheet, template: str) -> str:
+def compose_timesheet(timesheet: TimeSheet, text: str) -> str:
     table_data = timesheet.data['table_data']
     entries = table_data['entries']
     template_dic = {}
@@ -87,12 +92,12 @@ def compose_timesheet(timesheet: TimeSheet, template: str) -> str:
         template_dic[f'XXDAY_{entry_id}_TOTALXX'] = entry['hours']
 
     template_dic['XXTOTAL_WEEK_HOURSXX'] = table_data['total_hours']
-    template = replace_all(template, template_dic)
+    text = replace_all(text, template_dic)
 
-    return template
+    return text
 
 
-def clean_timesheet(text: str) -> str:
+def clean(text: str) -> str:
     pattern = r"(?:XX)(.*?)(?:XX)"
     while re.findall(pattern, text):
         text = re.sub(pattern, "", text)

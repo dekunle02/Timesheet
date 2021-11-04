@@ -2,13 +2,6 @@ import unittest
 from database.models import User, NightDisturbance, TimeSheet
 from template import composer
 
-"""
-Things to test
-1. Test that composer can parse an html string with a template and user obj
-2. That composer can output html
-3. That composer can output a pdf
-"""
-
 
 class MyTestCase(unittest.TestCase):
     def setUp(self) -> None:

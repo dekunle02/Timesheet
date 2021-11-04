@@ -64,7 +64,7 @@ class TimeSheet:
         work_entries = []
         entry_id: int = 1
         while next_date <= final_date:
-            row_data = {'id': entry_id, 'date': str(next_date)}
+            row_data = {'id': entry_id, 'date': str(next_date.strftime('%d-%m-%Y'))}
             if next_date == self.start_date:
                 row_data['start_time'] = self.start_time
                 row_data['end_time'] = '00:00'

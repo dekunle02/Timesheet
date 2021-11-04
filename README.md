@@ -1,14 +1,25 @@
 # Timesheet
 Python project to generate timesheets for my work.
 
-To start the virtual env. You may need to run commands with python3 if you have both 2-and 3- on your virtual environment
+Pip is used to manage the project's dependencies. 
 
-```pip install -r requirements.txt```
+Learn how to make a virtual environment [here.](https://docs.python.org/3/library/venv.html)
 
-This should be installed into your project's virtual environment. Learn how to make a virtual environment [here.](https://docs.python.org/3/library/venv.html)
+To start the virtual env. You may need to run commands with python3 if you have both 2-and 3- installed in your venv.
+
+ ```pip install -r requirements.txt```
+
+
+In other to generate the pdf, an external library, wkhtmltopdf, is used. It can be downloaded [here.](https://github.com/JazzCore/python-pdfkit/wiki/Installing-wkhtmltopdf)
+
 
 To use this script to generate timesheet.
 
 ```python main.py init```
 
 ```python main.py run```
+
+To get more information about using the script.
+
+```python main.py help```
+

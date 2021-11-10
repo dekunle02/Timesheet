@@ -45,12 +45,24 @@ class MyTestCase(unittest.TestCase):
 
     def test_date_parsers(self):
         """This tests the autocreation of rows for each shifts"""
-        text = "XXDAY_1_DATEXX.XXDAY_1_STARTXX.XXDAY_1_ENDXX.XXDAY_1_TOTALXX" \
-               "XXDAY_2_DATEXX.XXDAY_2_STARTXX.XXDAY_2_ENDXX.XXDAY_2_TOTALXX" \
-               ".XXTOTAL_WEEK_HOURSXX."
-        expected_result = "01-01-2021.12:00.00:00.12.0" \
-                          "01-02-2021.00:00.15:00.15.0" \
-                          ".27.0."
+        text = "XXENTRIESXX.XXTOTAL_WEEK_HOURSXX"
+
+        expected_result = "<tr>\n" \
+                          "<th scope='row'>Friday</th>\n" \
+                          "<td>01-01-2021</td>\n" \
+                          "<td>12:00</td>\n" \
+                          "<td>00:00</td>\n" \
+                          "<td>12.0</td>\n"\
+                          "</tr>\n"\
+                          "<tr>\n" \
+                          "<th scope='row'>Saturday</th>\n" \
+                          "<td>02-01-2021</td>\n" \
+                          "<td>00:00</td>\n" \
+                          "<td>15:00</td>\n" \
+                          "<td>15.0</td>\n" \
+                          "</tr>\n" \
+                          ".27.0"
+
         result = composer.write_hours(text, self.timesheet)
         self.assertEqual(expected_result, result)
 

@@ -24,6 +24,8 @@ CSS_DIR = (
     STYLES_DIR
 )
 
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
 
 def obtain_sheet() -> str:
     with codecs.open(str(TEMPLATE_DIRECTORY), 'r') as f:
@@ -34,7 +36,8 @@ def obtain_bio() -> User:
     return db.get_user()
 
 
-def write_css_n_images(text: str, css_dir=CSS_DIR, logo_dir=LOGO_DIR, signature_dir=SIGNATURE_DIRECTORY, timesheet=None) -> str:
+def write_css_n_images(text: str, css_dir=CSS_DIR, logo_dir=LOGO_DIR, signature_dir=SIGNATURE_DIRECTORY,
+                       timesheet=None) -> str:
     css_import: str = ''
     for css_dir in css_dir:
         css_import += f"<link rel='stylesheet' href='file://{css_dir}'>\n"
@@ -73,17 +76,25 @@ def write_disturbances(text: str, timesheet: TimeSheet) -> str:
     return text
 
 
-def write_hours(text: str, timesheet: TimeSheet, ) -> str:
+def write_hours(text: str, timesheet: TimeSheet) -> str:
     table_data = timesheet.data['table_data']
     entries = table_data['entries']
-    template_dic = {}
+    entry_strings = ""
     for entry in entries:
-        entry_id = entry['id']
-        template_dic[f'XXDAY_{entry_id}_DATEXX'] = entry['date']
-        template_dic[f'XXDAY_{entry_id}_STARTXX'] = entry['start_time']
-        template_dic[f'XXDAY_{entry_id}_ENDXX'] = entry['end_time']
-        template_dic[f'XXDAY_{entry_id}_TOTALXX'] = entry['hours']
-    template_dic['XXTOTAL_WEEK_HOURSXX'] = table_data['total_hours']
+        entry_weekday = WEEKDAYS[entry['date'].weekday()]
+        entry_date = entry['date'].strftime('%d-%m-%Y')
+        entry_string = f"<tr>\n" \
+                       f"<th scope='row'>{entry_weekday}</th>\n" \
+                       f"<td>{entry_date}</td>\n" \
+                       f"<td>{entry['start_time']}</td>\n" \
+                       f"<td>{entry['end_time']}</td>\n" \
+                       f"<td>{entry['hours']}</td>\n" \
+                       f"</tr>\n"
+        entry_strings += entry_string
+    template_dic = {
+        'XXENTRIESXX': entry_strings,
+        'XXTOTAL_WEEK_HOURSXX': table_data['total_hours']
+    }
     text = replace_all(text, template_dic)
     return text
 
@@ -129,7 +140,6 @@ def produce(timesheet: TimeSheet):
     }
     css = [str(BOOTSTRAP_DIR), str(STYLES_DIR)]
     pdfkit.from_file(str(OUT_HTML), str(OUT_PDF), options=options, css=css)
-
 
 # if __name__ == '__main__':
 #     sample_user = User(first_name="Samad", last_name="Adeleke", hospital_name="Nuffield")

@@ -40,7 +40,7 @@ class NightDisturbance:
 class TimeSheet:
     def __init__(self, user: User, start_date: str, start_time: str, number_of_days: int, end_time: str) -> None:
         self.user = user
-        self.start_date: date = datetime.strptime(start_date, '%d/%m/%Y').date()
+        self.start_date: datetime = datetime.strptime(start_date, '%d/%m/%Y')
         self.number_of_days: int = number_of_days
         self.start_time: str = start_time
         self.end_time: str = end_time
@@ -57,14 +57,13 @@ class TimeSheet:
 
     def calculate_work_data(self) -> dict:
         work_data = {}
-
         next_date = copy.deepcopy(self.start_date)
         final_date = self.start_date + timedelta(days=self.number_of_days)
 
         work_entries = []
         entry_id: int = 1
         while next_date <= final_date:
-            row_data = {'id': entry_id, 'date': str(next_date.strftime('%d-%m-%Y'))}
+            row_data = {'id': entry_id, 'date': next_date}
             if next_date == self.start_date:
                 row_data['start_time'] = self.start_time
                 row_data['end_time'] = '00:00'

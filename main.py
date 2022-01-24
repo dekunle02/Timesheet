@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from database import db, models
 from template import composer
 from pathlib import Path
@@ -19,6 +20,7 @@ HELP_MESSAGE = 'To use this script, run the following commands\n' \
                '***ENSURE YOU RUN init the first time you use this script***\n'
 DISTURBANCE_PROMPT = 'would you like to add a night disturbance? y or n: \n'
 DISTURBANCE_REPEAT_PROMPT = 'would you like to add another night disturbance? y or n: \n'
+
 
 
 def main():
@@ -90,7 +92,8 @@ def main():
             print(DISTURBANCE_REPEAT_PROMPT)
             disturbance_prompt = input().strip()
         composer.produce(timesheet=t)
-        print("\n**check the out folder in the project directory for the html and pdf(still buggy..)")
+        subprocess.run(["yarn", "start"])
+        print("\n**check the out folder in the project directory for the html and png")
     else:
         print(GENERIC_MESSAGE)
 

@@ -6,3 +6,5 @@ signature.jpg
 **/out/**
 **/venv/**
 **/.idea/**
+**/node_modules/**
+/node_modules

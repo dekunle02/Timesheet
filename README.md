@@ -12,7 +12,7 @@ After this. Install the dependencies in the root directory:
 
 Install the node dependencies:
 
-```npm init```
+```yarn init```
 
 
 **Finally** 

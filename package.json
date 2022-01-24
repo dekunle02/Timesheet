@@ -1,0 +1,14 @@
+{
+  "name": "Timesheet",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/dekunle02/Timesheet.git",
+  "author": "dekunle02 <dekunle02@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^13.0.0"
+  }
+}
